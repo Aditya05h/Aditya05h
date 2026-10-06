@@ -46,7 +46,7 @@ def main():
         for dy in range(2):
             p.append(f'<text x="454" y="{158+y*12+dy*6}" font-size="5.8" textLength="380" lengthAdjust="spacing" xml:space="preserve">{escape(row)}</text>')
     p.append('''</g><text x="454" y="275" font-size="17" fill="#e6edf3">Aspiring SDE</text>
-<text x="454" y="300" font-size="12" fill="#8b949e">Aditya Heralage · BCA Student</text>
+<text x="454" y="300" font-size="12" fill="#8b949e">Aditya Heralage</text>
 <path d="M0 372H860" stroke="#30363d"/>
 <text x="18" y="391" font-size="10" fill="#8b949e">brain / circuits / curiosity</text><text x="454" y="391" font-size="10" fill="#8b949e">github.com/Aditya05h</text></svg>''')
     (ROOT/'assets/identity.svg').write_text(''.join(p),encoding='utf-8')
