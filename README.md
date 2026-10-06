@@ -16,7 +16,7 @@
 <br />
 
 <h3><code>aditya@github ~ $ ./links.sh</code></h3>
-<p><b>Aspiring SDE</b></p>
+<p><b>Software Development Engineer</b></p>
 
 <p>
 <a href="https://www.linkedin.com/in/aditya-heralage/"><img src="./assets/linkedin.svg" alt="LinkedIn — Aditya Heralage" /></a>
