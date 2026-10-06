@@ -11,7 +11,7 @@
 <br />
 
 <h3><code>aditya@github ~ $ ./stats.sh</code></h3>
-<img src="./assets/stats.svg" width="860" alt="Aditya's GitHub streak and contribution stats for the displayed year" />
+<img src="./assets/stats.svg?v=monthly-bars" width="860" alt="Aditya's GitHub streak and contribution stats with monthly bars" />
 <br />
 <br />
 
