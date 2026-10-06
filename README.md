@@ -1,7 +1,7 @@
 <div align="center">
 
 <h3><code>aditya@github ~ $ whoami</code></h3>
-<img src="./assets/aditya-ascii.svg" width="560" alt="Aditya Heralage — animated ASCII portrait" />
+<img src="./assets/identity.svg" width="860" alt="Aditya05h — animated ASCII brain and username in two terminal panes" />
 <br />
 <br />
 
