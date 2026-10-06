@@ -1,7 +1,7 @@
 <div align="center">
 
 <h3><code>aditya@github ~ $ whoami</code></h3>
-<img src="./assets/identity.svg" width="860" alt="Aditya05h — animated ASCII brain and username in two terminal panes" />
+<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/main/assets/identity.svg?v=role-20261006" width="860" alt="Aditya05h — animated ASCII brain and username in two terminal panes" />
 <br />
 <br />
 
@@ -16,7 +16,7 @@
 <br />
 
 <h3><code>aditya@github ~ $ ./links.sh</code></h3>
-<p><b>Aspiring SDE · BCA Student</b></p>
+<p><b>Aspiring SDE</b></p>
 
 <p>
 <a href="https://www.linkedin.com/in/aditya-heralage/"><img src="./assets/linkedin.svg" alt="LinkedIn — Aditya Heralage" /></a>
