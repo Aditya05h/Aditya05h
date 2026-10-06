@@ -66,8 +66,8 @@ def metrics(days):
 def render_stats(data):
     days=data['days']
     total,active,current,longest,best=metrics(days)
-    p=start(292, f"{data['username']}'s GitHub stats", f"Stats for {days[0]['date']} to {days[-1]['date']}: {total} contributions, {active} active days, current streak {current}, longest streak in this window {longest} days.")
-    p.append('''<rect x=".5" y=".5" width="859" height="291" rx="12" fill="none" stroke="#30363d"/>
+    p=start(530, f"{data['username']}'s GitHub stats", f"Stats for {days[0]['date']} to {days[-1]['date']}: {total} contributions, {active} active days, current streak {current}, longest streak in this window {longest} days. Monthly bars total contributions within the displayed date window; boundary months may be partial.")
+    p.append('''<rect x=".5" y=".5" width="859" height="529" rx="12" fill="none" stroke="#30363d"/>
 <path d="M0 30H860" stroke="#30363d"/>
 <circle cx="20" cy="15" r="5" fill="#ff5f57"/><circle cx="36" cy="15" r="5" fill="#febc2e"/><circle cx="52" cy="15" r="5" fill="#28c840"/>
 <text x="430" y="19" font-size="12" text-anchor="middle" fill="#7d8590">aditya@github: ~$ ./stats.sh</text>''')
@@ -99,5 +99,29 @@ def render_stats(data):
             p.append(number(value*eased,'frame',0,animation))
         p.append(number(value,'final',1,f'<set attributeName="opacity" to="0" begin="0s"/><set attributeName="opacity" to="1" begin="{finish:.3f}s"/>'))
         p.append(f'<text x="{x+16}" y="{y+86}" font-size="11" fill="#7d8590">{detail}</text></g>')
+    months = monthly_totals(days)
+    peak = max(months.values(), default=0)
+    p.append('<style>.bar{transform-box:fill-box;transform-origin:center bottom;animation:grow 1s ease-out both}@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}@media(prefers-reduced-motion:reduce){.bar{animation:none}}</style>')
+    p.append('<rect x="20" y="300" width="820" height="210" rx="8" fill="#161b22" stroke="#30363d"/><text x="36" y="326" font-size="12" fill="#8b949e">$ contributions / month</text>')
+    step = 770 / len(months)
+    for i,(month,count) in enumerate(months.items()):
+        x = 45 + i*step
+        height = count / peak * 130 if peak else 0
+        fill = '#39d353' if count==peak and peak else '#26a641'
+        p.append(f'<g><title>{month}: {count} contributions in the displayed window</title><rect class="bar" style="animation-delay:{i*.06:.2f}s" x="{x:.2f}" y="{478-height:.2f}" width="{step*.62:.2f}" height="{height:.2f}" rx="2" fill="{fill}"/>')
+        if not count:
+            p.append(f'<path d="M{x:.2f} 478h{step*.62:.2f}" stroke="#30363d"/>')
+        if count==peak and peak:
+            p.append(f'<text x="{x+step*.31:.2f}" y="{470-height:.2f}" font-size="11" text-anchor="middle" fill="#e6edf3" font-weight="700">{count:,}</text>')
+        label=date.fromisoformat(month+'-01').strftime('%b')
+        p.append(f'<text x="{x+step*.31:.2f}" y="497" font-size="10" text-anchor="middle" fill="#8b949e">{label}</text></g>')
     p.append('</svg>')
     return ''.join(p)
+
+
+def monthly_totals(days):
+    result = {}
+    for day in days:
+        month = day['date'][:7]
+        result[month] = result.get(month, 0) + day['count']
+    return result
