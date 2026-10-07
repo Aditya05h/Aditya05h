@@ -86,6 +86,11 @@ class ActivityTests(unittest.TestCase):
         self.assertEqual(changed.count('?v=abc123'), 2)
         self.assertIn('<p>Software Development Engineer</p>', changed)
         self.assertEqual(update_image_links(changed, 'Aditya05h', 'abc123'), changed)
+        revision = 'a' * 40
+        pinned = update_image_links(changed, 'Aditya05h', 'abc123', revision)
+        self.assertEqual(pinned.count(f'/{revision}/assets/'), 2)
+        self.assertNotIn('/main/assets/', pinned)
+        self.assertEqual(update_image_links(pinned, 'Aditya05h', 'abc123', revision), pinned)
         with self.assertRaises(ValueError):
             update_image_links('<p>Missing charts</p>', 'Aditya05h', 'abc123')
 

@@ -104,11 +104,11 @@ def fetch_calendar(username):
     raise RuntimeError("Calendar request failed.")
 
 
-def update_image_links(readme, username, version):
+def update_image_links(readme, username, version, revision='main'):
     """Give both images the same snapshot version to avoid stale cached artwork."""
     for name in ('contributions', 'stats'):
         pattern = rf'(<img\b[^>]*\bsrc=")[^"]*/assets/{name}\.svg(?:\?[^"]*)?("[^>]*>)'
-        url = f'https://raw.githubusercontent.com/{username}/{username}/main/assets/{name}.svg?v={version}'
+        url = f'https://raw.githubusercontent.com/{username}/{username}/{revision}/assets/{name}.svg?v={version}'
         readme, count = re.subn(pattern, lambda match: match[1] + url + match[2], readme)
         if count != 1:
             raise ValueError(f"Expected exactly one {name} image in README.")
@@ -120,9 +120,12 @@ def main():
     parser.add_argument("--username", default="Aditya05h")
     parser.add_argument("--render-only", action="store_true", help="Use the saved calendar; no network.")
     parser.add_argument("--from-html", type=Path, help="Read a saved GitHub contribution fragment.")
+    parser.add_argument("--image-revision", help="Pin README images to the full commit SHA containing the generated artwork.")
     args = parser.parse_args()
     if not re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?", args.username):
         parser.error("Invalid GitHub username")
+    if args.image_revision and not re.fullmatch(r'[0-9a-f]{40}', args.image_revision):
+        parser.error('Image revision must be a full commit SHA')
     json_path = ROOT / "data/contributions.json"
     svg_path = ROOT / "assets/contributions.svg"
     if args.render_only:
@@ -139,7 +142,7 @@ def main():
     stats = render_stats(data)
     version = sha256((svg + stats).encode()).hexdigest()[:16]
     readme_path = ROOT / 'README.md'
-    readme = update_image_links(readme_path.read_text(encoding='utf-8'), data['username'], version)
+    readme = update_image_links(readme_path.read_text(encoding='utf-8'), data['username'], version, args.image_revision or 'main')
     for path, content in [(json_path, json.dumps(data, indent=2) + "\n"), (svg_path, svg + "\n"), (ROOT / "assets/stats.svg", stats + "\n"), (readme_path, readme)]:
         path.parent.mkdir(parents=True, exist_ok=True)
         temporary = path.with_suffix(path.suffix + ".tmp")
