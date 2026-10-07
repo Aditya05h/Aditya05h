@@ -2,13 +2,15 @@ name: Update profile activity
 
 "on":
   schedule:
-    - cron: "17 2 * * *" # Daily at approximately 07:47 IST.
+    - cron: "17 * * * *" # Hourly; GitHub may delay scheduled runs.
   workflow_dispatch:
   push:
     paths:
       - ".github/workflows/update-profile.yml"
       - "scripts/update_contributions.py"
       - "scripts/render_art.py"
+      - "scripts/test_activity.py"
+      - "README.md"
 
 permissions:
   contents: write
@@ -31,12 +33,14 @@ jobs:
           python-version: "3.13"
       - name: Fetch and render public contributions
         run: python scripts/update_contributions.py --username Aditya05h
+      - name: Validate contribution totals and artwork
+        run: python -m unittest discover -s scripts -p 'test_*.py'
       - name: Commit updated activity
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/contributions.svg assets/stats.svg data/contributions.json
+          git add assets/contributions.svg assets/stats.svg data/contributions.json README.md
           if git diff --cached --quiet; then
             echo 'Activity artwork is already current.'
             exit 0
