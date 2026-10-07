@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import argparse
-from datetime import date
+from datetime import date, datetime, timezone
+from hashlib import sha256
 from html.parser import HTMLParser
 import json
 from pathlib import Path
@@ -75,6 +76,13 @@ def parse_calendar(html):
         days[day["date"]] = day
     result = sorted(days.values(), key=lambda d: d["date"])
     validate_days(result)
+    # Fail closed if GitHub's headline and the parsed daily cells disagree.
+    headline = re.search(r'([\d,]+)\s+contributions?\s+in the last year', html, re.I)
+    if not headline:
+        raise ValueError("Cannot verify GitHub's yearly contribution total.")
+    expected = int(headline[1].replace(',', ''))
+    if sum(day['count'] for day in result) != expected:
+        raise ValueError("Daily counts do not match GitHub's yearly total.")
     return result
 
 
@@ -83,6 +91,7 @@ def fetch_calendar(username):
     request = Request(url, headers={
         "User-Agent": "GitHub-Profile-Calendar/1.0",
         "Accept": "text/html", "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "no-cache",
     })
     for attempt in range(3):
         try:
@@ -93,6 +102,17 @@ def fetch_calendar(username):
                 raise
             time.sleep(2 ** attempt)
     raise RuntimeError("Calendar request failed.")
+
+
+def update_image_links(readme, username, version):
+    """Give both images the same snapshot version to avoid stale cached artwork."""
+    for name in ('contributions', 'stats'):
+        pattern = rf'(<img\b[^>]*\bsrc=")[^"]*/assets/{name}\.svg(?:\?[^"]*)?("[^>]*>)'
+        url = f'https://raw.githubusercontent.com/{username}/{username}/main/assets/{name}.svg?v={version}'
+        readme, count = re.subn(pattern, lambda match: match[1] + url + match[2], readme)
+        if count != 1:
+            raise ValueError(f"Expected exactly one {name} image in README.")
+    return readme.replace('contribution graph — refreshed daily', 'contribution graph — refreshed hourly')
 
 
 def main():
@@ -109,17 +129,23 @@ def main():
         data = json.loads(json_path.read_text(encoding="utf-8"))
     else:
         days = parse_calendar(args.from_html.read_text(encoding="utf-8")) if args.from_html else fetch_calendar(args.username)
-        data = {"username": args.username, "source": f"https://github.com/users/{args.username}/contributions", "days": days}
+        if not args.from_html and not 0 <= (datetime.now(timezone.utc).date() - date.fromisoformat(days[-1]['date'])).days <= 1:
+            raise ValueError("GitHub returned an out-of-date calendar; retaining the previous snapshot.")
+        data = {"username": args.username, "source": f"https://github.com/users/{args.username}/contributions",
+                "fetched_at": datetime.now(timezone.utc).isoformat(timespec='seconds'), "days": days}
     # Parse and render fully before replacing either file. Failures preserve existing art.
     validate_days(data["days"])
     svg = render(data)
     stats = render_stats(data)
-    for path, content in [(json_path, json.dumps(data, indent=2) + "\n"), (svg_path, svg + "\n"), (ROOT / "assets/stats.svg", stats + "\n")]:
+    version = sha256((svg + stats).encode()).hexdigest()[:16]
+    readme_path = ROOT / 'README.md'
+    readme = update_image_links(readme_path.read_text(encoding='utf-8'), data['username'], version)
+    for path, content in [(json_path, json.dumps(data, indent=2) + "\n"), (svg_path, svg + "\n"), (ROOT / "assets/stats.svg", stats + "\n"), (readme_path, readme)]:
         path.parent.mkdir(parents=True, exist_ok=True)
         temporary = path.with_suffix(path.suffix + ".tmp")
-        temporary.write_text(content, encoding="utf-8")
+        temporary.write_text(content, encoding="utf-8", newline="\n")
         temporary.replace(path)
-    print(f"Rendered {len(data['days'])} days for {data['username']}.")
+    print(f"Rendered {len(data['days'])} days and {sum(d['count'] for d in data['days'])} contributions for {data['username']} (snapshot {version}).")
 
 
 if __name__ == "__main__":
