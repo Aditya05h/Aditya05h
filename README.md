@@ -6,12 +6,12 @@
 <br />
 
 <h3><code>aditya@github ~ $ ./contributions.sh</code></h3>
-<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/4f2accf785ce5b0dde2df3f68ccaafad84075605/assets/contributions.svg?v=573b724c58459bdd" width="860" alt="Aditya's GitHub contribution graph — refreshed hourly" />
+<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/ca2cc4be507f2ac1084984958786d62f4dc035ca/assets/contributions.svg?v=9fea41caa261f6be" width="860" alt="Aditya's GitHub contribution graph — refreshed hourly" />
 <br />
 <br />
 
 <h3><code>aditya@github ~ $ ./stats.sh</code></h3>
-<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/4f2accf785ce5b0dde2df3f68ccaafad84075605/assets/stats.svg?v=573b724c58459bdd" width="860" alt="Aditya's GitHub streak and contribution stats with monthly bars" />
+<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/ca2cc4be507f2ac1084984958786d62f4dc035ca/assets/stats.svg?v=9fea41caa261f6be" width="860" alt="Aditya's GitHub streak and contribution stats with monthly bars" />
 <br />
 <br />
 
