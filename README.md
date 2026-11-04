@@ -1,7 +1,7 @@
 <div align="center">
 
 <h3><code>aditya@github ~ $ whoami</code></h3>
-<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/6e4a41ef67bac957aa26b42f2df0934d0d04cd0c/assets/identity.svg" width="860" alt="ASCII brain beside a robotic hand touching a human fingertip" />
+<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/727d60a3233352d0544332d63426e907e80322a6/assets/identity.svg" width="860" alt="ASCII brain beside a robotic hand touching a human fingertip inside a retro PROJECT.EXE window" />
 <br />
 <br />
 
