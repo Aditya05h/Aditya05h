@@ -1,7 +1,7 @@
 <div align="center">
 
 <h3><code>aditya@github ~ $ whoami</code></h3>
-<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/353018d6e56dfb59e403f27c65f4b27a6a512cfd/assets/identity.svg" width="860" alt="ASCII brain beside the tech arsenal: Java, CSS, HTML, Spring Boot, Docker, Kubernetes, GitHub, PostgreSQL, JavaScript, React, Express, Node.js, and MongoDB" />
+<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/d7084e7bc116f530a97a4dfdea037d40365524d0/assets/identity.svg" width="860" alt="ASCII brain beside the tech arsenal: Java, CSS, HTML, Spring Boot, Docker, Kubernetes, GitHub, PostgreSQL, JavaScript, React, Express, Node.js, MongoDB, Gradle, Hibernate, and Kotlin" />
 <br />
 <br />
 
