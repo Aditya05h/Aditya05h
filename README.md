@@ -6,7 +6,7 @@
 <br />
 
 <h3><code>aditya@github ~ $ ./contributions.sh</code></h3>
-<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/8a54fafac9e48be2ec19a485a8d2b7205913844a/assets/contributions.svg?v=4350698ca4d94bd4" width="860" alt="Aditya's GitHub contribution graph — refreshed hourly" />
+<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/566cdff1ded7f9bb0d13ee4b0ac4079765aac905/assets/contributions.svg?v=122f76586284ee84" width="860" alt="Aditya's GitHub contribution graph — refreshed hourly" />
 <br />
 <br />
 
@@ -16,6 +16,6 @@
 <br />
 
 <h3><code>aditya@github ~ $ ./stats.sh</code></h3>
-<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/8a54fafac9e48be2ec19a485a8d2b7205913844a/assets/stats.svg?v=4350698ca4d94bd4" width="860" alt="Aditya's GitHub streak and contribution stats with monthly bars" />
+<img src="https://raw.githubusercontent.com/Aditya05h/Aditya05h/566cdff1ded7f9bb0d13ee4b0ac4079765aac905/assets/stats.svg?v=122f76586284ee84" width="860" alt="Aditya's GitHub streak and contribution stats with monthly bars" />
 
 </div>
